@@ -1,7 +1,7 @@
 # Convolutional Neural Networks (CNN)
 
 Welcome to the CNN Learning Portal.
-
+![CNN Architecture](images/A-generic-CNN-Architecture.webp)
 This tutorial is designed for beginners who want to learn:
 
 - Artificial Intelligence
