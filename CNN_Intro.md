@@ -47,6 +47,13 @@ Consider an image of a cat:
 
 Thus, CNN learns from simple patterns to complex objects automatically.
 
+- Human sees a photo → "That's a cat."
+- CNN sees a photo → "That's a cat."
+
+The difference is that the CNN must be trained using many examples.
+
+CNN (Convolutional Neural Network) is a type of AI model that learns to identify objects in images.
+
 ### Benefits of CNN
 
 ✅ Fewer parameters than traditional neural networks  
