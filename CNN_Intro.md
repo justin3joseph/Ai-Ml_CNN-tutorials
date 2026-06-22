@@ -74,3 +74,37 @@ CNN (Convolutional Neural Network) is a type of AI model that learns to identify
 ---
 
 **In simple terms:** CNN works like a human visual system by learning to identify patterns in images, starting from simple edges and gradually recognizing complex objects.
+
+
+# CNN Architecture
+
+```text
+Input Image
+      │
+      ▼
+Convolution Layer
+      │
+      ▼
+ReLU Activation
+      │
+      ▼
+Pooling Layer
+      │
+      ▼
+Convolution Layer
+      │
+      ▼
+ReLU Activation
+      │
+      ▼
+Pooling Layer
+      │
+      ▼
+Flatten Layer
+      │
+      ▼
+Fully Connected Layer
+      │
+      ▼
+Output Layer
+```
