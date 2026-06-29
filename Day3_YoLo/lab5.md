@@ -407,3 +407,20 @@ In this lab, you learned how to:
 # Next Lab
 
 **Lab 06: Real-Time Video Object Detection using YOLO**
+
+```python
+results = model.predict(
+    source="Video1.mp4",
+    imgsz=320,
+    conf=0.5,
+    save=True
+)
+```
+
+Display the output video
+
+```python
+from IPython.display import Video
+
+Video("output.mp4", embed=True)
+```
