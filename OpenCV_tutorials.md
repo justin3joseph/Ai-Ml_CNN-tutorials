@@ -611,4 +611,445 @@ After completing this lab, you should be able to:
 
 ---
 
-**Next Lab:** Image Transformations and Geometric Operations in OpenCV
+# Understanding OpenCV Video Reading Program
+
+## Objective
+
+In this section, you will learn how OpenCV reads and displays a video **frame by frame**. This is one of the most important concepts because the same logic is used in:
+
+- Webcam Applications
+- CCTV Surveillance
+- Object Detection (YOLO)
+- Face Detection
+- Video Analytics
+
+---
+
+# Complete Program
+
+```python
+import cv2
+
+cap = cv2.VideoCapture("video.mp4")
+
+while True:
+
+    ret, frame = cap.read()
+
+    if not ret:
+        break
+
+    cv2.imshow("Video", frame)
+
+    if cv2.waitKey(25) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
+```
+
+---
+
+# Step 1 – Import OpenCV
+
+```python
+import cv2
+```
+
+## Explanation
+
+This line imports the **OpenCV library**, allowing us to use all OpenCV functions.
+
+Think of OpenCV as a toolbox.
+
+```text
+OpenCV Toolbox
+│
+├── Image Processing
+├── Video Processing
+├── Webcam Access
+├── Object Detection
+├── Face Detection
+├── Drawing Functions
+└── Machine Learning
+```
+
+---
+
+# Step 2 – Open the Video File
+
+```python
+cap = cv2.VideoCapture("video.mp4")
+```
+
+## Explanation
+
+`VideoCapture()` creates a video object.
+
+It opens the video file named **video.mp4**.
+
+The variable `cap` acts as a controller that allows us to:
+
+- Read video frames
+- Pause
+- Stop
+- Release the video
+
+### Workflow
+
+```text
+video.mp4
+      │
+      ▼
+VideoCapture()
+      │
+      ▼
+cap (Video Object)
+```
+
+---
+
+# Step 3 – Create an Infinite Loop
+
+```python
+while True:
+```
+
+## Explanation
+
+A video is actually a collection of images called **frames**.
+
+```text
+Video
+│
+├── Frame 1
+├── Frame 2
+├── Frame 3
+├── Frame 4
+└── ...
+```
+
+The `while True` loop continuously reads one frame after another until the video ends.
+
+---
+
+# Step 4 – Read One Frame
+
+```python
+ret, frame = cap.read()
+```
+
+## Explanation
+
+`cap.read()` returns **two values**.
+
+### 1. `ret`
+
+A Boolean value.
+
+| Value | Meaning |
+|--------|---------|
+| `True` | Frame successfully read |
+| `False` | No more frames or an error occurred |
+
+---
+
+### 2. `frame`
+
+The actual image (current frame) from the video.
+
+```text
+Video
+
+Frame 1
+
+Frame 2
+
+Frame 3
+
+Frame 4
+
+...
+
+Frame N
+```
+
+Each time the loop executes, `frame` stores the next image.
+
+---
+
+# Step 5 – Check Whether a Frame Exists
+
+```python
+if not ret:
+    break
+```
+
+## Explanation
+
+Suppose the video contains 300 frames.
+
+```text
+Frame 1    → True
+
+Frame 2    → True
+
+Frame 3    → True
+
+...
+
+Frame 300  → True
+
+Frame 301  → False
+```
+
+When no more frames are available, `ret` becomes `False`.
+
+The program exits the loop using `break`.
+
+Without this condition, OpenCV would try to display an empty frame and may produce an error.
+
+---
+
+# Step 6 – Display the Frame
+
+```python
+cv2.imshow("Video", frame)
+```
+
+## Explanation
+
+`imshow()` displays the current frame inside a window.
+
+```text
+Frame 1 → Display
+
+Frame 2 → Display
+
+Frame 3 → Display
+
+Frame 4 → Display
+
+...
+```
+
+Since frames are displayed very quickly, our eyes perceive them as continuous motion.
+
+---
+
+# Step 7 – Wait for 25 Milliseconds
+
+```python
+cv2.waitKey(25)
+```
+
+## Explanation
+
+This function pauses the program for **25 milliseconds** before reading the next frame.
+
+Workflow:
+
+```text
+Display Frame
+      │
+      ▼
+Wait 25 ms
+      │
+      ▼
+Read Next Frame
+```
+
+### Why is this important?
+
+If the delay is:
+
+- Too small → Video plays too fast
+- Too large → Video plays too slowly
+
+The delay is generally chosen based on the video's frame rate (FPS).
+
+---
+
+# Step 8 – Detect the Q Key
+
+```python
+if cv2.waitKey(25) & 0xFF == ord('q'):
+    break
+```
+
+## Explanation
+
+This line allows the user to quit the video by pressing the **Q** key.
+
+Let's break it down.
+
+### Part 1
+
+```python
+cv2.waitKey(25)
+```
+
+Waits for a keyboard key for 25 milliseconds.
+
+---
+
+### Part 2
+
+```python
+ord('q')
+```
+
+Converts the character `'q'` into its ASCII value.
+
+Example:
+
+```python
+print(ord('q'))
+```
+
+Output:
+
+```text
+113
+```
+
+---
+
+### Part 3
+
+```python
+& 0xFF
+```
+
+This extracts the lowest 8 bits of the returned key code.
+
+It helps ensure keyboard detection works consistently across different operating systems.
+
+---
+
+Overall meaning:
+
+> **If the user presses the Q key, stop playing the video.**
+
+---
+
+# Step 9 – Release the Video
+
+```python
+cap.release()
+```
+
+## Explanation
+
+Releases the video file and frees the resources.
+
+Think of it like closing a file after reading it.
+
+---
+
+# Step 10 – Close All Windows
+
+```python
+cv2.destroyAllWindows()
+```
+
+## Explanation
+
+Closes every window created by OpenCV.
+
+Without this command, display windows may remain open.
+
+---
+
+# Complete Program Workflow
+
+```text
+Video File
+     │
+     ▼
+VideoCapture()
+     │
+     ▼
+Read One Frame
+     │
+     ▼
+Frame Available?
+     │
+ ┌───┴────┐
+ │        │
+Yes      No
+ │        │
+ ▼        ▼
+Display  Stop
+ │
+ ▼
+Wait 25 ms
+ │
+ ▼
+Q Pressed?
+ │
+ ┌───┴────┐
+ │        │
+No       Yes
+ │        │
+ └────┬───┘
+      ▼
+Read Next Frame
+```
+
+---
+
+# How YOLO Uses the Same Workflow
+
+The OpenCV loop remains almost identical when using YOLO.
+
+The only difference is that each frame is passed to the YOLO model before it is displayed.
+
+```python
+ret, frame = cap.read()
+
+results = model(frame)
+
+annotated_frame = results[0].plot()
+
+cv2.imshow("Detection", annotated_frame)
+```
+
+Workflow:
+
+```text
+Video
+   │
+   ▼
+Read Frame
+   │
+   ▼
+YOLO Model
+   │
+   ▼
+Detect Objects
+   │
+   ▼
+Draw Bounding Boxes
+   │
+   ▼
+Display Frame
+   │
+   ▼
+Read Next Frame
+```
+
+---
+
+# Key Takeaways
+
+- A video is a sequence of images called **frames**.
+- `cv2.VideoCapture()` opens a video source.
+- `cap.read()` reads one frame at a time.
+- `ret` indicates whether reading was successful.
+- `frame` contains the current image.
+- `cv2.imshow()` displays the frame.
+- `cv2.waitKey()` controls playback speed and detects key presses.
+- `cap.release()` releases the video resource.
+- `cv2.destroyAllWindows()` closes all OpenCV windows.
+- This same loop forms the foundation for **YOLO object detection**, **face detection**, **webcam applications**, and **real-time computer vision**.
